@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">To do List</string>
+    <string name="app_name">Lista de Tarefas</string>
     <string name="label_new_task">Criar Tarefa</string>
     <string name="label_title">Título</string>
     <string name="label_input_title">Título</string>

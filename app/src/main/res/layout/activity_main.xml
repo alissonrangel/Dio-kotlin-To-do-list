@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:title="Lista de Tarefas"
+        android:visibility="gone"
         app:titleTextColor="@color/white"
         style="@style/Widget.MaterialComponents.AppBarLayout.Primary"
         />
