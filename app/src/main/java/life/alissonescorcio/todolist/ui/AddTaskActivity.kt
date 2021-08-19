@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import life.alissonescorcio.todolist.application.ToDoApplication
 import life.alissonescorcio.todolist.databinding.ActivityAddTaskBinding
 import life.alissonescorcio.todolist.datasource.TaskDataSource
 import life.alissonescorcio.todolist.extensions.format
@@ -26,7 +27,7 @@ class AddTaskActivity: AppCompatActivity() {
 
         if (intent.hasExtra(TASK_ID)){
             val taskId = intent.getIntExtra(TASK_ID, 0)
-            TaskDataSource.findById(taskId)?.let {
+            TaskDataSource.findByIdSqlLite(taskId)?.let {
                 binding.tilTitle.text = it.title
                 binding.tilDate.text = it.date
                 binding.tilHour.text = it.hour
@@ -68,9 +69,8 @@ class AddTaskActivity: AppCompatActivity() {
                 date = binding.tilDate.text,
                 id = intent.getIntExtra(TASK_ID, 0)
             )
-            TaskDataSource.insertTask(task)
+            TaskDataSource.insertTaskSqlLite(task)
 
-            Log.w("TAG", "insertListeners: " + TaskDataSource.getList())
             setResult(Activity.RESULT_OK)
             finish()
         }

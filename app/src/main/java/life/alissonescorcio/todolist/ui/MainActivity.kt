@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import life.alissonescorcio.todolist.application.ToDoApplication
 import life.alissonescorcio.todolist.databinding.ActivityMainBinding
 import life.alissonescorcio.todolist.datasource.TaskDataSource
 import life.alissonescorcio.todolist.model.Task
@@ -40,14 +41,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         adapter.listenerEdit = {
-            Log.e("TAG", "listenerEdit - $it")
             val intent = Intent(this, AddTaskActivity::class.java)
             intent.putExtra(AddTaskActivity.TASK_ID, it.id)
             startActivityForResult(intent, CREATE_NEW_TASK)
         }
 
         adapter.listenerDelete = {
-            TaskDataSource.deleteTask(it)
+            TaskDataSource.deleteTaskSqlLite(it)
             updateList()
         }
     }
@@ -56,17 +56,19 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if ( requestCode == CREATE_NEW_TASK && resultCode == Activity.RESULT_OK){
             updateList()
-            Toast.makeText(this,"onActivityResult", Toast.LENGTH_LONG).show()
         }
     }
 
     private fun updateList(){
-        val list = TaskDataSource.getList()
+        //val list = TaskDataSource.getList()
+        val list = ToDoApplication.instance.helperDB?.listarTarefas() ?: arrayListOf()
+
         binding.include.emptyState.visibility = if (list.isEmpty()) View.VISIBLE else View.GONE
         if( list.isNotEmpty()) Toast.makeText(this,"${list[0].title}", Toast.LENGTH_LONG).show()
 
+        adapter.submitList(list)
 
-        adapter.submitList(TaskDataSource.getList())
+        //adapter.submitList(TaskDataSource.getList())
 
     }
 
